@@ -24,7 +24,10 @@ jobs:
 
       - name: Build React app
         run: npm run build
-
+        env:
+          REACT_APP_AI_ENDPOINT: ${{ secrets.REACT_APP_AI_ENDPOINT }}
+          REACT_APP_AI_KEY: ${{ secrets.REACT_APP_AI_KEY }}
+        
       - name: Login to Azure
         uses: azure/login@v2
         with:
