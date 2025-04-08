@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./App.css";
 
-
 function App() {
   const [userInput, setUserInput] = useState("");
   const [aiResponse, setAiResponse] = useState("");
