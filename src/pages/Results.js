@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const Results = () => {
   const [profile, setProfile] = useState({});
-  const [answers, setAnswers] = useState({});
   const [report, setReport] = useState(null);
+  const [error, setError] = useState(null);
+
+  const endpoint = process.env.REACT_APP_AI_ENDPOINT;
+  const apiKey = process.env.REACT_APP_AI_KEY;
 
   useEffect(() => {
     const storedProfile = JSON.parse(localStorage.getItem("profile"));
     const storedAnswers = JSON.parse(localStorage.getItem("assessmentAnswers"));
     const sessionId = localStorage.getItem("sessionId");
-  
+
     setProfile(storedProfile || {});
-  
+
     if (!endpoint || !apiKey) {
       setError("AI agent configuration missing. Check your environment settings.");
       return;
     }
-  
+
     const runAgent = async () => {
       try {
         const payload = {
@@ -24,35 +28,26 @@ const Results = () => {
           profile: storedProfile,
           answers: storedAnswers
         };
-  
+
         const response = await axios.post(endpoint, payload, {
           headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${apiKey}`
           }
         });
-  
-        const result = response.data;
-        setReport(result);
+
+        setReport(response.data);
       } catch (err) {
         console.error("AI agent call failed:", err);
         setError("Oops! Something went wrong talking to the AI agent.");
       }
     };
-  
+
     runAgent();
   }, [apiKey, endpoint]);
-  
 
-  const generateRecommendations = (answers) => {
-    const recs = [];
-    if (answers[1] === "no") recs.push("Consider implementing a CRM system.");
-    if (answers[2] === "no") recs.push("Document your customer service process.");
-    if (answers[3] === "no") recs.push("Adopt automated reporting tools.");
-    return recs.length ? recs : ["Great job! Keep optimizing your tech stack."];
-  };
-
-  if (!report) return <p className="p-6">Generating your results...</p>;
+  if (error) return <p className="p-6 text-red-600">{error}</p>;
+  if (!report) return <p className="p-6">Talking to your AI agent...</p>;
 
   return (
     <div className="p-6 max-w-3xl mx-auto">
@@ -68,9 +63,9 @@ const Results = () => {
 
       <div className="mb-6">
         <h3 className="text-xl font-semibold mb-2">Assessment Summary</h3>
-        <p><strong>Score:</strong> {report.score} / 30</p>
+        <p><strong>Score:</strong> {report.score}</p>
         <p><strong>Readiness Level:</strong> {report.level}</p>
-        <p><strong>Projected ROI:</strong> {report.roiProjection}</p>
+        <p><strong>Projected ROI:</strong> {report.roi}</p>
       </div>
 
       <div>
