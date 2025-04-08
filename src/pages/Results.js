@@ -26,26 +26,32 @@ const Results = () => {
     }
 
     const runAgent = async () => {
-      try {
-        const payload = {
-          sessionId,
-          profile: storedProfile,
-          answers: storedAnswers
-        };
-
-        const response = await axios.post(endpoint, payload, {
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${apiKey}`
-          }
-        });
-
-        setReport(response.data);
-      } catch (err) {
-        console.error("AI agent call failed:", err);
-        setError("Oops! Something went wrong talking to the AI agent.");
+  try {
+    const payload = {
+      input_data: {
+        profile: storedProfile,
+        answers: storedAnswers
       }
     };
+
+    const response = await axios.post(endpoint, payload, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`
+      }
+    });
+
+    console.log("Raw AI Response:", response.data);
+
+    // Adjust this part based on how your agent responds
+    // For now, assuming it returns a full report directly
+    setReport(response.data);
+  } catch (err) {
+    console.error("AI agent call failed:", err.response?.data || err.message);
+    setError("Oops! Something went wrong talking to the AI agent.");
+  }
+};
+
 
     runAgent();
   }, [apiKey, endpoint]);
