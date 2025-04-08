@@ -16,6 +16,10 @@ const Results = () => {
 
     setProfile(storedProfile || {});
 
+    // ✅ DEBUG LOGS HERE
+    console.log("Endpoint:", endpoint);
+    console.log("API Key loaded:", !!apiKey); 
+    
     if (!endpoint || !apiKey) {
       setError("AI agent configuration missing. Check your environment settings.");
       return;
