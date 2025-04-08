@@ -12,7 +12,6 @@ const Results = () => {
   useEffect(() => {
     const storedProfile = JSON.parse(localStorage.getItem("profile"));
     const storedAnswers = JSON.parse(localStorage.getItem("assessmentAnswers"));
-    const sessionId = localStorage.getItem("sessionId");
 
     setProfile(storedProfile || {});
 
@@ -57,7 +56,14 @@ const Results = () => {
   }, [apiKey, endpoint]);
 
   if (error) return <p className="p-6 text-red-600">{error}</p>;
-  if (!report) return <p className="p-6">Talking to your AI agent...</p>;
+  if (!report) {
+    return (
+      <div className="p-6 flex justify-center items-center h-40">
+        <div className="animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
+        <p className="ml-4">Talking to your AI agent...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 max-w-3xl mx-auto">
@@ -73,9 +79,9 @@ const Results = () => {
 
       <div className="mb-6">
         <h3 className="text-xl font-semibold mb-2">Assessment Summary</h3>
-        <p><strong>Score:</strong> {report.score}</p>
-        <p><strong>Readiness Level:</strong> {report.level}</p>
-        <p><strong>Projected ROI:</strong> {report.roi}</p>
+        <p><strong>Score:</strong> {report?.score}</p>
+        <p><strong>Readiness Level:</strong> {report?.level}</p>
+        <p><strong>Projected ROI:</strong> {report?.roi}</p>
       </div>
 
       <div>
