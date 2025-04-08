@@ -18,6 +18,7 @@ function App() {
     setError(null);
     setAiResponse("");
 
+    
     try {
       const response = await axios.post(
         endpoint,
