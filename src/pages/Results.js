@@ -81,7 +81,7 @@ const Results = () => {
       <div>
         <h3 className="text-xl font-semibold mb-2">Recommendations</h3>
         <ul className="list-disc pl-5">
-          {report.recommendations.map((rec, i) => (
+          {report.recommendations?.map((rec, i) => (
             <li key={i}>{rec}</li>
           ))}
         </ul>
