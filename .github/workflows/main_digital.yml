@@ -28,6 +28,7 @@ jobs:
           REACT_APP_AI_ENDPOINT: ${{ secrets.REACT_APP_AI_ENDPOINT }}
           REACT_APP_AI_KEY: ${{ secrets.REACT_APP_AI_KEY }}
         
+>>>>>>> 2d04f131af4dbd8a94e7245862fe5316f1923d32
       - name: Login to Azure
         uses: azure/login@v2
         with:
