@@ -33,12 +33,13 @@ const Results = () => {
       }
     };
 
-    const response = await axios.post(endpoint, payload, {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${apiKey}`
-      }
-    });
+    const response = await axios.post("https://ai-agent-proxy.azurewebsites.net/api/askAgent?", {
+        input_data: {
+          profile: storedProfile,
+          answers: storedAnswers
+        }
+      });
+      
 
     console.log("Raw AI Response:", response.data);
 
